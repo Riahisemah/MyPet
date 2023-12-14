@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ProductCard from '../Components/Product/Product';
+import ProductCard from '../../Components/Product/Product';
 
 describe('ProductCard component', () => {
   it('should render the product name', () => {

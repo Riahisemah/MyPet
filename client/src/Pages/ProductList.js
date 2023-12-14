@@ -132,7 +132,7 @@ const ProductList = () => {
         <>
           <Modal show={openForm} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
             <Modal.Header>
-              <Modal.Title id="contained-modal-title-vcenter">Add Product</Modal.Title>
+              <Modal.Title id="contained-modal-title-vcenter">Add Pet</Modal.Title>
             </Modal.Header>
             {createFail && (
               <ErrorMessage
@@ -295,7 +295,7 @@ const ProductList = () => {
         return (
           <div className="custom-ui">
             <h1 className="font-weight-bold text-white">Are you sure?</h1>
-            <p>You want to delete this product?</p>
+            <p>You want to delete this Pet?</p>
             <MaterialButton
               variant="contained"
               color="primary"
@@ -333,11 +333,11 @@ const ProductList = () => {
       )}
       <Row>
         <Col>
-          <h1>Products({count})</h1>
+          <h1>Pet({count})</h1>
         </Col>
         <Col className="text-right">
           <MaterialButton variant="contained" color="primary" onClick={() => setOpenForm(true)}>
-            <i className="fas fa-plus mr-2"></i> Add Product
+            <i className="fas fa-plus mr-2"></i> Add Pet
           </MaterialButton>
         </Col>
       </Row>

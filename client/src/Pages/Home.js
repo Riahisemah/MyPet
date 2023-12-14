@@ -97,13 +97,13 @@ const Home = () => {
                 Go Back
               </Link>
               <h1>
-                Search Products for {searchProductKey}({count})
+                Search Pets for {searchProductKey}({count})
               </h1>
             </>
           ) : (
             <div className="clearfix">
               <span className="float-left">
-                <h1>Latest Products ({count})</h1>
+                <h1>Latest Pets ({count})</h1>
               </span>
               <span className="float-right">
                 {' '}
@@ -120,7 +120,7 @@ const Home = () => {
               </span>
             </div>
           )}
-          {!products.length && <h4>No Products</h4>}
+          {!products.length && <h4>No Pets</h4>}
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>

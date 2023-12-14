@@ -5,19 +5,18 @@ const verifyEmail = require("../utilis/verifyEmail");
 const sendEmail = require("../utilis/sendEmail");
 const cron = require("node-cron");
 const User = require("../models/User");
-
 const RegisterUser = asyncHandler(async (req, res, next) => {
-  var uid = "";
-  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-  var charactersLength = characters.length;
-
-  for (var i = 0; i < 6; i++) {
-    uid += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  const newUser = await User.create({ ...req.body, uid: uid });
-
   try {
+    var uid = "";
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    var charactersLength = characters.length;
+
+    for (var i = 0; i < 6; i++) {
+      uid += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    const newUser = await User.create({ ...req.body, uid: uid });
+
     const options = {
       email: newUser.email,
       subject: "Account Verification",
@@ -25,20 +24,17 @@ const RegisterUser = asyncHandler(async (req, res, next) => {
       name: newUser.name,
     };
 
-    //  await verifyEmail(options);
+    await verifyEmail(options);
 
     var job = cron.schedule(
       "59 * * * *",
       async () => {
         try {
-          const user1 = await User.findOne({
-            email: newUser.email,
-          });
+          const user1 = await User.findOne({ email: newUser.email });
+
           if (user1.verify === false) {
             try {
-              await User.findOneAndDelete({
-                email: user1.email,
-              });
+              await User.findOneAndDelete({ email: user1.email });
             } catch (er) {
               console.log(er);
             }
@@ -47,9 +43,7 @@ const RegisterUser = asyncHandler(async (req, res, next) => {
           console.log(error);
         }
       },
-      {
-        scheduled: false,
-      }
+      { scheduled: false }
     );
 
     job.start();
@@ -59,10 +53,20 @@ const RegisterUser = asyncHandler(async (req, res, next) => {
       message: "Verification Code sent to your email.",
     });
   } catch (error) {
-    throw createError(500, "Verification email cound't be sent");
+    console.error("Verification email couldn't be sent:", error);
+    if (!res.headersSent) {
+      // Check if headers have been sent before sending a response
+      res.status(500).send({
+        status: "error",
+        message: "Verification email couldn't be sent",
+      });
+    }
   }
 
-  sendTokenResponse(newUser, 200, res);
+  // Assuming sendTokenResponse is here, do not send a response if headers have already been sent
+  if (sendTokenResponse && !res.headersSent) {
+    sendTokenResponse(newUser, 200, res); // Adjust this according to your logic
+  }
 });
 
 const login = asyncHandler(async (req, res, next) => {
@@ -146,7 +150,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   try {
-    const resetUrl = `https://shoppoint.herokuapp.com/reset-password/?token=${resetToken}`;
+    const resetUrl = `http://localhost:3000/reset-password/?token=${resetToken}`;
 
     const message = `You are receiving this email because you (or someone else ) has
     requested the reset of a password.`;

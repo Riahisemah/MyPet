@@ -4,8 +4,8 @@
 const config = {
   baseURI: 'http://127.0.0.1:5000/api/v1',
   payPal: process.env.REACT_APP_API_PAYPAL,
-  esewaImageUrl: process.env.REACT_APP_ESEWA_IMAGE_URL,
-  esewaPaymentUrl: process.env.REACT_APP_ESEWA_PAYMENT_URL,
+  esewaImageUrl: 'https://myrepublica.nagariknetwork.com/uploads/media/Esewa_Logo_20201009153032_20201009153948.png',
+  esewaPaymentUrl: 'https://uat.esewa.com.np/epay/main',
   apiEndPoint: {
     product: {
       fetchProducts: '/product',

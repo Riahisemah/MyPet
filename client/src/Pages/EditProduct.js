@@ -136,7 +136,7 @@ const EditProduct = ({ match }) => {
       ) : (
         <>
           <FormContainer>
-            <h1>Edit Product</h1>
+            <h1>Edit PropTypes.oneOf([''])</h1>
             <Form onSubmit={submitHandler}>
               <TextField
                 variant="outlined"
